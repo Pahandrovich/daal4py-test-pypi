@@ -9,45 +9,41 @@ pr:
     - main
 
 jobs:
-- job: daalp4yPyP
+#- job: daal4py-lin-pypi
+#  strategy:
+#    matrix:
+#      ubuntu - python39:
+#        imageName: 'ubuntu-20.04'
+#        python.version: '3.9'
+#  pool:
+#    vmImage: $(imageName)
+#  steps:
+#  - task: UsePythonVersion@0
+#    displayName: 'Use Python $(python.version)'
+#    inputs:
+#      versionSpec: '$(python.version)'
+#  - script: python --version
+#    displayName: 'Check Python'
+#  - script:
+#      pip install pip/daal-2021.4.0-py2.py3-none-manylinux1_x86_64.whl
+#      pip install pip/daal4py-2021.4.0-py39-none-manylinux1_x86_64.whl
+#      pip install pip/scikit_learn_intelex-2021.4.0-py39-none-manylinux1_x86_64.whl
+#      pip install pytest pandas scikit-learn
+#    displayName: 'Install packages'
+#  - script:
+#      python -c "import daal4py"
+#      python -c "import sklearnex"
+#      git clone https://github.com/intel/scikit-learn-intelex.git
+#      cd scikit-learn-intelex
+#      pytest sklearnex/tests/
+#      pytest --pyargs daal4py/sklearn/
+#    displayName: 'Testing'
+- job: daal4py_win_pypi
   strategy:
     matrix:
-      ubuntu - python39:
-        imageName: 'ubuntu-latest'
-        python.version: '3.9'
-      ubuntu - python38:
-        imageName: 'ubuntu-latest'
-        python.version: '3.8'
-      ubuntu - python37:
-        imageName: 'ubuntu-latest'
-        python.version: '3.7'
-      ubuntu - python36:
-        imageName: 'ubuntu-latest'
-        python.version: '3.6'
-      mac - python39:
-        imageName: 'macos-latest'
-        python.version: '3.9'
-      mac - python38:
-        imageName: 'macos-latest'
-        python.version: '3.8'
-      mac - python37:
-        imageName: 'macos-latest'
-        python.version: '3.7'
-      mac - python36:
-        imageName: 'macos-latest'
-        python.version: '3.6'
       windows - python39:
         imageName: 'windows-latest'
         python.version: '3.9'
-      windows - python38:
-        imageName: 'windows-latest'
-        python.version: '3.8'
-      windows - python37:
-        imageName: 'windows-latest'
-        python.version: '3.7'
-      windows - python36:
-        imageName: 'windows-latest'
-        python.version: '3.6'
   pool:
     vmImage: $(imageName)
   steps:
@@ -57,16 +53,172 @@ jobs:
       versionSpec: '$(python.version)'
   - script: python --version
     displayName: 'Check Python'
-  - script:
-      pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple daal4py
+  - script: |
+      pip install pip/daal-2021.4.0-py2.py3-none-win_amd64.whl
+      pip install pip/daal4py-2021.4.0-py39-none-win_amd64.whl
+      pip install pip/scikit_learn_intelex-2021.4.0-py39-none-win_amd64.whl
       pip install pytest pandas scikit-learn
-    displayName: 'Install daal4py'
-  - script:
+      pip list
+    displayName: 'Install packages'
+  - script: |
+      pip list
       python -c "import daal4py"
-      git clone https://github.com/IntelPython/daal4py.git
-      cd daal4py
-      python -m unittest discover -v -s tests -p test*.py
+      python -c "import sklearnex"
+      git clone https://github.com/intel/scikit-learn-intelex.git
+      cd scikit-learn-intelex
+      pytest sklearnex/tests/
       pytest --pyargs daal4py/sklearn/
-      python examples/run_examples.py
-      python -m daal4py examples/sycl/sklearn_sycl.py
-    displayName: 'Testing daal4py'
+    displayName: 'Testing'
+
+#- job: daal4py-osx-pypi
+#  strategy:
+#    matrix:
+#      mac - python39:
+#        imageName: 'macOS-10.15'
+#        python.version: '3.9'
+#  pool:
+#    vmImage: $(imageName)
+#  steps:
+#  - task: UsePythonVersion@0
+#    displayName: 'Use Python $(python.version)'
+#    inputs:
+#      versionSpec: '$(python.version)'
+#  - script: python --version
+#    displayName: 'Check Python'
+#  - script:
+#      pip install pip/daal-2021.4.0-py2.py3-none-macosx_10_15_x86_64.macosx_11_0_x86_64.whl
+#      pip install pip/daal4py-2021.4.0-py39-none-macosx_10_15_x86_64.macosx_11_0_x86_64.whl
+#      pip install pip/scikit_learn_intelex-2021.4.0-py39-none-macosx_10_15_x86_64.macosx_11_0_x86_64.whl
+#      pip install pytest pandas scikit-learn
+#    displayName: 'Install packages'
+#  - script:
+#      python -c "import daal4py"
+#      python -c "import sklearnex"
+#      git clone https://github.com/intel/scikit-learn-intelex.git
+#      cd scikit-learn-intelex
+#      pytest sklearnex/tests/
+#      pytest --pyargs daal4py/sklearn/
+#    displayName: 'Testing'
+- job: daal4py_lin_conda
+  strategy:
+    matrix:
+      ubuntu - python39:
+        imageName: 'ubuntu-20.04'
+        python.version: '3.9'
+  pool:
+    vmImage: $(imageName)
+  steps:
+  - task: UsePythonVersion@0
+    displayName: 'Use Python $(python.version)'
+    inputs:
+      versionSpec: '$(python.version)'
+  - script: python --version
+    displayName: 'Check Python'
+  - script: |
+      conda update -y conda
+      conda create -y -n tests python=3.9
+      . /usr/share/miniconda/etc/profile.d/conda.sh
+      conda activate tests
+      conda install -y -c conda-forge pytest pandas scikit-learn tbb
+      conda install conda/dal-2021.4.0-intel_569.tar.bz2
+      conda install conda/daal4py-2021.4.0-py39_intel_569.tar.bz2
+      conda install conda/scikit-learn-intelex-2021.4.0-py39_intel_569.tar.bz2
+    displayName: 'Install packages'
+  - script: |
+      . /usr/share/miniconda/etc/profile.d/conda.sh
+      conda activate tests
+      python -c "import daal4py"
+      python -c "import sklearnex"
+      git clone https://github.com/intel/scikit-learn-intelex.git
+      cd scikit-learn-intelex
+      pytest sklearnex/tests/
+      pytest --pyargs daal4py/sklearn/
+    displayName: 'Testing'
+
+- job: daal4py_win_conda
+  strategy:
+    matrix:
+      windows - python39:
+        imageName: 'windows-latest'
+        python.version: '3.9'
+  pool:
+    vmImage: $(imageName)
+  steps:
+  - task: UsePythonVersion@0
+    displayName: 'Use Python $(python.version)'
+    inputs:
+      versionSpec: '$(python.version)'
+  - script: python --version
+    displayName: 'Check Python'
+  - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
+    displayName: Add conda to PATH
+  - script: |
+      conda update -y conda
+      conda create -y -n tests python=3.9
+      call activate tests
+      conda install -y -c conda-forge pytest pandas scikit-learn tbb
+    displayName: 'Install packages'
+  - script: |
+      call activate tests
+      conda install -y conda/dal-2021.4.0-intel_568.tar.bz2
+    displayName: 'create env 1'
+  - script: |
+      call activate tests
+      conda install -y conda/daal4py-2021.4.0-py39_intel_568.tar.bz2
+    displayName: 'create env 2'
+  - script: |
+      call activate tests
+      conda install -y conda/scikit-learn-intelex-2021.4.0-py39_intel_568.tar.bz2
+    displayName: 'create env 3'
+  - script: |
+      call activate tests
+      echo "python -c import daal4py"
+      python -c "import daal4py"
+      echo "python -c import sklearnex"
+      python -c "import sklearnex"
+      git clone https://github.com/intel/scikit-learn-intelex.git
+      cd scikit-learn-intelex
+      pytest sklearnex/tests/
+      pytest --pyargs daal4py/sklearn/
+    displayName: 'Testing'
+
+- job: daal4py_osx_conda
+  strategy:
+    matrix:
+      macos - python39:
+        imageName: 'macOS-10.15'
+        python.version: '3.9'
+  pool:
+    vmImage: $(imageName)
+  steps:
+  - task: UsePythonVersion@0
+    displayName: 'Use Python $(python.version)'
+    inputs:
+      versionSpec: '$(python.version)'
+  - script: python --version
+    displayName: 'Check Python'
+  - script: |
+      sudo chown -R $USER $CONDA
+      conda config --set always_yes yes --set changeps1 no
+      conda update -y -q conda
+      conda create -q -y -n tests python=3.9
+      . /usr/local/miniconda/etc/profile.d/conda.sh
+      conda activate tests
+      conda list
+      conda install -c conda-forge pytest pandas scikit-learn tbb
+      conda install conda/dal-2021.4.0-intel_560.tar.bz2
+      conda install conda/daal4py-2021.4.0-py39_intel_560.tar.bz2
+      conda install conda/scikit-learn-intelex-2021.4.0-py39_intel_560.tar.bz2
+      conda list
+    displayName: 'Install packages'
+  - script: |
+      . /usr/local/miniconda/etc/profile.d/conda.sh
+      conda activate tests
+      conda list
+      python -c "import daal4py"
+      python -c "import sklearnex"
+      git clone https://github.com/intel/scikit-learn-intelex.git
+      cd scikit-learn-intelex
+      pytest sklearnex/tests/
+      pytest --pyargs daal4py/sklearn/
+    displayName: 'Testing'
