@@ -156,6 +156,7 @@ jobs:
   - script: |
       conda update -y conda
       conda create -y -n tests python=3.9
+      call activate tests
       conda install -y -c conda-forge pytest pandas scikit-learn tbb
     displayName: 'Install packages'
   - script: |
