@@ -135,7 +135,7 @@ jobs:
 - job: daal4py_win_conda
   strategy:
     matrix:
-      ubuntu - python39:
+      windows - python39:
         imageName: 'windows-latest'
         python.version: '3.9'
   pool:
@@ -157,9 +157,11 @@ jobs:
       conda install conda/dal-2021.4.0-intel_568.tar.bz2
       conda install conda/daal4py-2021.4.0-py39_intel_568.tar.bz2
       conda install conda/scikit-learn-intelex-2021.4.0-py39_intel_568.tar.bz2
+      conda list
     displayName: 'Install packages'
   - script: |
       call activate tests
+      conda list
       python -c "import daal4py"
       python -c "import sklearnex"
       git clone https://github.com/intel/scikit-learn-intelex.git
@@ -171,7 +173,7 @@ jobs:
 - job: daal4py_osx_conda
   strategy:
     matrix:
-      ubuntu - python39:
+      macos - python39:
         imageName: 'macOS-10.15'
         python.version: '3.9'
   pool:
@@ -183,19 +185,20 @@ jobs:
       versionSpec: '$(python.version)'
   - script: python --version
     displayName: 'Check Python'
-  - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
-    displayName: Add conda to PATH
   - script: |
       conda update -y -q conda
       conda create -q -y -n tests python=3.9
       call activate tests
+      conda list
       conda install -c conda-forge pytest pandas scikit-learn
       conda install conda/dal-2021.4.0-intel_560.tar.bz2
       conda install conda/daal4py-2021.4.0-py39_intel_560.tar.bz2
       conda install conda/scikit-learn-intelex-2021.4.0-py39_intel_560.tar.bz2
+      conda list
     displayName: 'Install packages'
   - script: |
       call activate tests
+      conda list
       python -c "import daal4py"
       python -c "import sklearnex"
       git clone https://github.com/intel/scikit-learn-intelex.git
