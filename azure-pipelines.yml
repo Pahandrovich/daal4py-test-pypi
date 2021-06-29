@@ -161,9 +161,15 @@ jobs:
   - script: |
       call activate tests
       conda install -y conda/dal-2021.4.0-intel_568.tar.bz2
+    displayName: 'create env 1'
+  - script: |
+      call activate tests
       conda install -y conda/daal4py-2021.4.0-py39_intel_568.tar.bz2
+    displayName: 'create env 2'
+  - script: |
+      call activate tests
       conda install -y conda/scikit-learn-intelex-2021.4.0-py39_intel_568.tar.bz2
-    displayName: 'create env'
+    displayName: 'create env 3'
   - script: |
       call activate tests
       echo "python -c import daal4py"
