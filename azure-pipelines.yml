@@ -206,7 +206,7 @@ jobs:
       . /usr/local/miniconda/etc/profile.d/conda.sh
       conda activate tests
       conda list
-      conda install -c conda-forge pytest pandas scikit-learn
+      conda install -c conda-forge pytest pandas scikit-learn tbb
       conda install conda/dal-2021.4.0-intel_560.tar.bz2
       conda install conda/daal4py-2021.4.0-py39_intel_560.tar.bz2
       conda install conda/scikit-learn-intelex-2021.4.0-py39_intel_560.tar.bz2
