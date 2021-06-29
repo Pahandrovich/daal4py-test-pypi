@@ -100,41 +100,41 @@ jobs:
 #      pytest --pyargs daal4py/sklearn/
 #    displayName: 'Testing'
 
-- job: daal4py_lin_conda
-  strategy:
-    matrix:
-      ubuntu - python39:
-        imageName: 'ubuntu-20.04'
-        python.version: '3.9'
-  pool:
-    vmImage: $(imageName)
-  steps:
-  - task: UsePythonVersion@0
-    displayName: 'Use Python $(python.version)'
-    inputs:
-      versionSpec: '$(python.version)'
-  - script: python --version
-    displayName: 'Check Python'
-  - script: |
-      conda update -y conda
-      conda create -y -n tests python=3.9
-      . /usr/share/miniconda/etc/profile.d/conda.sh
-      conda activate tests
-      conda install -y -c conda-forge pytest pandas scikit-learn tbb
-      conda install conda/dal-2021.4.0-intel_569.tar.bz2
-      conda install conda/daal4py-2021.4.0-py39_intel_569.tar.bz2
-      conda install conda/scikit-learn-intelex-2021.4.0-py39_intel_569.tar.bz2
-    displayName: 'Install packages'
-  - script: |
-      . /usr/share/miniconda/etc/profile.d/conda.sh
-      conda activate tests
-      python -c "import daal4py"
-      python -c "import sklearnex"
-      git clone https://github.com/intel/scikit-learn-intelex.git
-      cd scikit-learn-intelex
-      pytest sklearnex/tests/
-      pytest --pyargs daal4py/sklearn/
-    displayName: 'Testing'
+#- job: daal4py_lin_conda
+#  strategy:
+#    matrix:
+#      ubuntu - python39:
+#        imageName: 'ubuntu-20.04'
+#        python.version: '3.9'
+#  pool:
+#    vmImage: $(imageName)
+#  steps:
+#  - task: UsePythonVersion@0
+#    displayName: 'Use Python $(python.version)'
+#    inputs:
+#      versionSpec: '$(python.version)'
+#  - script: python --version
+#    displayName: 'Check Python'
+#  - script: |
+#      conda update -y conda
+#      conda create -y -n tests python=3.9
+#      . /usr/share/miniconda/etc/profile.d/conda.sh
+#      conda activate tests
+#      conda install -y -c conda-forge pytest pandas scikit-learn tbb
+#      conda install conda/dal-2021.4.0-intel_569.tar.bz2
+#      conda install conda/daal4py-2021.4.0-py39_intel_569.tar.bz2
+#      conda install conda/scikit-learn-intelex-2021.4.0-py39_intel_569.tar.bz2
+#    displayName: 'Install packages'
+#  - script: |
+#      . /usr/share/miniconda/etc/profile.d/conda.sh
+#      conda activate tests
+#      python -c "import daal4py"
+#      python -c "import sklearnex"
+#      git clone https://github.com/intel/scikit-learn-intelex.git
+#      cd scikit-learn-intelex
+#      pytest sklearnex/tests/
+#      pytest --pyargs daal4py/sklearn/
+#    displayName: 'Testing'
 
 - job: daal4py_win_conda
   strategy:
@@ -158,15 +158,12 @@ jobs:
       conda create -y -n tests python=3.9
       call activate tests
       conda install -y -c conda-forge pytest pandas scikit-learn tbb
-      conda list
       conda install -y conda/dal-2021.4.0-intel_568.tar.bz2
       conda install -y conda/daal4py-2021.4.0-py39_intel_568.tar.bz2
       conda install -y conda/scikit-learn-intelex-2021.4.0-py39_intel_568.tar.bz2
-      conda list
     displayName: 'Install packages'
   - script: |
       call activate tests
-      conda list
       echo "python -c import daal4py"
       python -c "import daal4py"
       echo "python -c import sklearnex"
