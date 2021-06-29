@@ -118,14 +118,16 @@ jobs:
   - script: |
       conda update -y conda
       conda create -y -n tests python=3.9
-      source activate tests
+      . /usr/share/miniconda/etc/profile.d/conda.sh
+      conda activate tests
       conda install -y -c conda-forge pytest pandas scikit-learn
       conda install conda/dal-2021.4.0-intel_569.tar.bz2
       conda install conda/daal4py-2021.4.0-py39_intel_569.tar.bz2
       conda install conda/scikit-learn-intelex-2021.4.0-py39_intel_569.tar.bz2
     displayName: 'Install packages'
   - script: |
-      source activate tests
+      . /usr/share/miniconda/etc/profile.d/conda.sh
+      conda activate tests
       python -c "import daal4py"
       python -c "import sklearnex"
       git clone https://github.com/intel/scikit-learn-intelex.git
