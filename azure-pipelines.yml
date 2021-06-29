@@ -38,7 +38,7 @@ jobs:
 #      pytest sklearnex/tests/
 #      pytest --pyargs daal4py/sklearn/
 #    displayName: 'Testing'
-- job: daal4py-win-pypi
+- job: daal4py_win_pypi
   strategy:
     matrix:
       windows - python39:
@@ -98,7 +98,7 @@ jobs:
 #      pytest --pyargs daal4py/sklearn/
 #    displayName: 'Testing'
 
-- job: daal4py-lin-conda
+- job: daal4py_lin_conda
   strategy:
     matrix:
       ubuntu - python39:
@@ -132,7 +132,7 @@ jobs:
       pytest --pyargs daal4py/sklearn/
     displayName: 'Testing'
 
-- job: daal4py-win-conda
+- job: daal4py_win_conda
   strategy:
     matrix:
       ubuntu - python39:
@@ -168,7 +168,7 @@ jobs:
       pytest --pyargs daal4py/sklearn/
     displayName: 'Testing'
 
-- job: daal4py-osx-conda
+- job: daal4py_osx_conda
   strategy:
     matrix:
       ubuntu - python39:
