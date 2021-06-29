@@ -156,12 +156,14 @@ jobs:
   - script: |
       conda update -y conda
       conda create -y -n tests python=3.9
+      conda install -y -c conda-forge pytest pandas scikit-learn tbb
+    displayName: 'Install packages'
+  - script: |
       call activate tests
       conda install -y conda/dal-2021.4.0-intel_568.tar.bz2
       conda install -y conda/daal4py-2021.4.0-py39_intel_568.tar.bz2
       conda install -y conda/scikit-learn-intelex-2021.4.0-py39_intel_568.tar.bz2
-      conda install -y -c conda-forge pytest pandas scikit-learn tbb
-    displayName: 'Install packages'
+    displayName: 'create env'
   - script: |
       call activate tests
       echo "python -c import daal4py"
