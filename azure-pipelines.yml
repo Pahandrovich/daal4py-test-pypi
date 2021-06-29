@@ -53,13 +53,13 @@ jobs:
       versionSpec: '$(python.version)'
   - script: python --version
     displayName: 'Check Python'
-  - script:
+  - script: |
       pip install pip/daal-2021.4.0-py2.py3-none-win_amd64.whl
       pip install pip/daal4py-2021.4.0-py39-none-win_amd64.whl
       pip install pip/scikit_learn_intelex-2021.4.0-py39-none-win_amd64.whl
       pip install pytest pandas scikit-learn
     displayName: 'Install packages'
-  - script:
+  - script: |
       python -c "import daal4py"
       python -c "import sklearnex"
       git clone https://github.com/intel/scikit-learn-intelex.git
@@ -113,7 +113,7 @@ jobs:
       versionSpec: '$(python.version)'
   - script: python --version
     displayName: 'Check Python'
-  - script:
+  - script: |
       conda update -y -q conda
       conda create -q -y -n tests python=3.9
       call activate tests
@@ -122,7 +122,7 @@ jobs:
       conda install conda/daal4py-2021.4.0-py39_intel_569.tar.bz2
       conda install conda/scikit-learn-intelex-2021.4.0-py39_intel_569.tar.bz2
     displayName: 'Install packages'
-  - script:
+  - script: |
       call activate tests
       python -c "import daal4py"
       python -c "import sklearnex"
@@ -149,7 +149,7 @@ jobs:
     displayName: 'Check Python'
   - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
     displayName: Add conda to PATH
-  - script:
+  - script: |
       conda update -y -q conda
       conda create -q -y -n tests python=3.9
       call activate tests
@@ -158,7 +158,7 @@ jobs:
       conda install conda/daal4py-2021.4.0-py39_intel_568.tar.bz2
       conda install conda/scikit-learn-intelex-2021.4.0-py39_intel_568.tar.bz2
     displayName: 'Install packages'
-  - script:
+  - script: |
       call activate tests
       python -c "import daal4py"
       python -c "import sklearnex"
@@ -185,7 +185,7 @@ jobs:
     displayName: 'Check Python'
   - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
     displayName: Add conda to PATH
-  - script:
+  - script: |
       conda update -y -q conda
       conda create -q -y -n tests python=3.9
       call activate tests
@@ -194,7 +194,7 @@ jobs:
       conda install conda/daal4py-2021.4.0-py39_intel_560.tar.bz2
       conda install conda/scikit-learn-intelex-2021.4.0-py39_intel_560.tar.bz2
     displayName: 'Install packages'
-  - script:
+  - script: |
       call activate tests
       python -c "import daal4py"
       python -c "import sklearnex"
