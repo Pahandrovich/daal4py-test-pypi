@@ -203,7 +203,7 @@ jobs:
       conda config --set always_yes yes --set changeps1 no
       conda update -y -q conda
       conda create -q -y -n tests python=3.9
-      . /usr/share/miniconda/etc/profile.d/conda.sh
+      . /usr/local/miniconda/etc/profile.d/conda.sh
       conda activate tests
       conda list
       conda install -c conda-forge pytest pandas scikit-learn
@@ -213,7 +213,7 @@ jobs:
       conda list
     displayName: 'Install packages'
   - script: |
-      . /usr/share/miniconda/etc/profile.d/conda.sh
+      . /usr/local/miniconda/etc/profile.d/conda.sh
       conda activate tests
       conda list
       python -c "import daal4py"
