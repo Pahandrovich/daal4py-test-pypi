@@ -58,8 +58,10 @@ jobs:
       pip install pip/daal4py-2021.4.0-py39-none-win_amd64.whl
       pip install pip/scikit_learn_intelex-2021.4.0-py39-none-win_amd64.whl
       pip install pytest pandas scikit-learn
+      pip list
     displayName: 'Install packages'
   - script: |
+      pip list
       python -c "import daal4py"
       python -c "import sklearnex"
       git clone https://github.com/intel/scikit-learn-intelex.git
@@ -117,7 +119,7 @@ jobs:
       conda update -y -q conda
       conda create -q -y -n tests python=3.9
       call activate tests
-      conda install -c conda-forge pytest pandas scikit-learn
+      conda install -y -c conda-forge pytest pandas scikit-learn
       conda install conda/dal-2021.4.0-intel_569.tar.bz2
       conda install conda/daal4py-2021.4.0-py39_intel_569.tar.bz2
       conda install conda/scikit-learn-intelex-2021.4.0-py39_intel_569.tar.bz2
@@ -153,7 +155,7 @@ jobs:
       conda update -y -q conda
       conda create -q -y -n tests python=3.9
       call activate tests
-      conda install -c conda-forge pytest pandas scikit-learn
+      conda install -y -c conda-forge pytest pandas scikit-learn
       conda install conda/dal-2021.4.0-intel_568.tar.bz2
       conda install conda/daal4py-2021.4.0-py39_intel_568.tar.bz2
       conda install conda/scikit-learn-intelex-2021.4.0-py39_intel_568.tar.bz2
@@ -186,6 +188,8 @@ jobs:
   - script: python --version
     displayName: 'Check Python'
   - script: |
+      sudo chown -R $USER $CONDA
+      conda config --set always_yes yes --set changeps1 no
       conda update -y -q conda
       conda create -q -y -n tests python=3.9
       call activate tests
